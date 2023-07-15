@@ -19,7 +19,7 @@ const Screen4 = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation.navigate('Screen5');
-    }, 2000);
+    }, 4000);
 
     return () => clearTimeout(timer);
   }, []);
