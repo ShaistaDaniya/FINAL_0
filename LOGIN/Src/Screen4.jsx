@@ -18,11 +18,11 @@ const Screen4 = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('Screen5');
+      navigation.navigate('screen5');
     }, 4000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import FlagIndia from 'react-native-emoji-flag-kit/FlagIndia';
+import { Flag } from 'react-native-svg-flagkit';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19.92,
     textAlign: 'center',
-    marginTop: 248,
+    marginTop: 30,
   },
   supportText: {
     padding: 10,
@@ -80,32 +80,14 @@ const styles = StyleSheet.create({
 
 const Screen2 = () => {
   const navigation = useNavigation();
-
-  const handlePhoneNumberInputClick = () => {
-    navigation.navigate('Screen3');
-  };
-
-  return (
-    <View style={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('./GAT.jpeg')}
-      />
-      <PhoneNumberInput handlePhoneNumberInputClick={handlePhoneNumberInputClick} />
-    </View>
-  );
-};
-
-const PhoneNumberInput = ({ handlePhoneNumberInputClick }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  const handlePhoneNumberChange = (text) => {
-    const formattedNumber = text.replace(/[^0-9]/g, '');
-    setPhoneNumber(formattedNumber);
+  const handlePhoneNumberInputClick = () => {
+    navigation.navigate('screen3');
   };
 
   const handleNextButton = () => {
-    console.log('Next button clicked');
+    navigation.navigate('screen4');
   };
 
   const handleSupportTextPress = () => {
@@ -114,11 +96,33 @@ const PhoneNumberInput = ({ handlePhoneNumberInputClick }) => {
   };
 
   return (
+    <View style={styles.container}>
+      <Image style={styles.logo} source={require('./GAT.jpeg')} />
+      <PhoneNumberInput
+        phoneNumber={phoneNumber}
+        handlePhoneNumberChange={setPhoneNumber}
+        handlePhoneNumberInputClick={handlePhoneNumberInputClick}
+        handleNextButton={handleNextButton}
+        handleSupportTextPress={handleSupportTextPress}
+      />
+    </View>
+  );
+};
+
+const PhoneNumberInput = ({
+  phoneNumber,
+  handlePhoneNumberChange,
+  handlePhoneNumberInputClick,
+  handleNextButton,
+  handleSupportTextPress,
+}) => {
+  return (
     <View style={styles.regview}>
       <Text style={styles.register}>Your Registered Phone Number:</Text>
       <TouchableOpacity onPress={handlePhoneNumberInputClick}>
         <View style={styles.numContainer}>
-          <FlagIndia size={24} style={styles.flagIcon} />
+          {/* Flag Component */}
+          <Flag id="IN" width={24} height={24} style={styles.flagIcon} />
           <TextInput
             style={styles.phoneNumberInput}
             keyboardType="phone-pad"

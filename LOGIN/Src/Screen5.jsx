@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
+import React from 'react';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhoneNumber, setRegistrationData } from './Action';
 import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
@@ -11,9 +13,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 223,
     height: 64,
-    // flex: 'none',
-    order: 0,
-    flexGrow: 0,
   },
   register: {
     width: 283,
@@ -95,48 +94,43 @@ const styles = StyleSheet.create({
 
 const Screen5 = () => {
   const navigation = useNavigation();
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      navigation.navigate('Screen6');
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [navigation]);
+  const dispatch = useDispatch();
+  const phoneNumber = useSelector((state) => state.phoneNumber);
 
   const handleNextButton = () => {
-    navigation.navigate('Screen2');
+    dispatch(setPhoneNumber(''));
+    navigation.navigate('screen2');
   };
 
   const handleSupportTextPress = () => {
-    const supportURL = ''; // we can replace with our contact web page URL here 
+    const supportURL = ''; // Replace with your contact web page URL
     Linking.openURL(supportURL);
   };
 
   return (
     <View style={styles.container}>
-    <Image style={styles.logo} source={require('./GAT.jpeg')} />
-      <PhoneNumberInput handleNextButton={handleNextButton} handleSupportTextPress={handleSupportTextPress} />
+      <Image style={styles.logo} source={require('./GAT.jpeg')} />
+      <PhoneNumberInput
+        phoneNumber={phoneNumber}
+        handleNextButton={handleNextButton}
+        handleSupportTextPress={handleSupportTextPress}
+      />
     </View>
   );
 };
 
-const PhoneNumberInput = ({ handleNextButton, handleSupportTextPress }) => {
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const handlePhoneNumberChange = (text) => {
-    const formattedNumber = text.replace(/[^0-9]/g, '');
-    setPhoneNumber(formattedNumber);
-  };
-
+const PhoneNumberInput = ({
+  phoneNumber,
+  handleNextButton,
+  handleSupportTextPress,
+}) => {
   return (
     <View style={styles.regview}>
       <Text style={styles.register}>
         Your mobile number +91 {phoneNumber} is not registered with us!
       </Text>
       <Text style={styles.txt}>
-        We have currently enrolled limited people. If you are interested in getting flexible factory jobs, please register
-        your interest and we will get back to you
+        We have currently enrolled limited people. If you are interested in getting flexible factory jobs, please register your interest and we will get back to you
       </Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button1} onPress={handleNextButton}>
@@ -146,7 +140,6 @@ const PhoneNumberInput = ({ handleNextButton, handleSupportTextPress }) => {
           <Text style={styles.buttonText2}>Register Now</Text>
         </TouchableOpacity>
       </View>
-
       <Text style={styles.Need}>Need help?</Text>
       <Text style={styles.supportText} onPress={handleSupportTextPress}>
         Contact for support
