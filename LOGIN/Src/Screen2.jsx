@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import FlagIndia from 'react-native-emoji-flag-kit/FlagIndia';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, 
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
     width: 223,
     height: 64,
-    // flex: 0,
-    order: 0,
-    flexGrow: 0,
   },
   register: {
     width: 227,
@@ -26,13 +24,22 @@ const styles = StyleSheet.create({
   regview: {
     fontSize: 16,
   },
-  num: {
+  numContainer: {
     height: 56,
     borderColor: '#2F4D8B',
-    padding: 10,
     borderWidth: 1,
     borderRadius: 5,
     margin: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+  },
+  flagIcon: {
+    marginRight: 10,
+  },
+  phoneNumberInput: {
+    flex: 1,
+    fontSize: 16,
   },
   button: {
     marginTop: 23,
@@ -93,13 +100,11 @@ const PhoneNumberInput = ({ handlePhoneNumberInputClick }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const handlePhoneNumberChange = (text) => {
-    // this is to remove any non-digit characters from the input
     const formattedNumber = text.replace(/[^0-9]/g, '');
     setPhoneNumber(formattedNumber);
   };
 
   const handleNextButton = () => {
-    // can remove this
     console.log('Next button clicked');
   };
 
@@ -112,13 +117,16 @@ const PhoneNumberInput = ({ handlePhoneNumberInputClick }) => {
     <View style={styles.regview}>
       <Text style={styles.register}>Your Registered Phone Number:</Text>
       <TouchableOpacity onPress={handlePhoneNumberInputClick}>
-        <TextInput
-          style={styles.num}
-          keyboardType="phone-pad"
-          placeholder="Enter phone number"
-          value={phoneNumber}
-          onChangeText={handlePhoneNumberChange}
-        />
+        <View style={styles.numContainer}>
+          <FlagIndia size={24} style={styles.flagIcon} />
+          <TextInput
+            style={styles.phoneNumberInput}
+            keyboardType="phone-pad"
+            placeholder="Enter phone number"
+            value={phoneNumber}
+            onChangeText={handlePhoneNumberChange}
+          />
+        </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleNextButton}>
         <Text style={styles.buttonText}>Next</Text>
