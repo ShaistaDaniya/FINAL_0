@@ -18,12 +18,12 @@ const App = () => {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="screen1" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="screen1" component={Screen1} />
-          <Stack.Screen name="screen2" component={Screen2} />
-          <Stack.Screen name="screen3" component={Screen3} />
-          <Stack.Screen name="screen4" component={Screen4} />
-          <Stack.Screen name="screen5" component={Screen5} />
+        <Stack.Navigator initialRouteName="Screen1" screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Screen1" component={Screen1} />
+          <Stack.Screen name="Screen2" component={Screen2} />
+          <Stack.Screen name="Screen3" component={Screen3} />
+          <Stack.Screen name="Screen4" component={Screen4} />
+          <Stack.Screen name="Screen5" component={Screen5} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

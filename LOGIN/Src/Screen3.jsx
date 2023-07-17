@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { setRegistrationData } from './Action';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import { Flag } from 'react-native-svg-flagkit';
 
 const styles = StyleSheet.create({
@@ -86,43 +85,19 @@ const Screen3 = () => {
   const dispatch = useDispatch();
   const [phoneNumber, setPhoneNumber] = useState('');
 
-  useEffect(() => {
-    const sendPhoneNumberToServer = async (phoneNumber) => {
-      const url = 'https://localhost:7201/api/NumberStore'; // this is my url
-
-      const payload = {
-        id: new Date().getTime(), //this will Generate a unique timestamp for 'id'
-        phoneNumber: phoneNumber,
-      };
-
-      try {
-        const response = await axios.post(url, payload);
-
-        if (response.status === 200) {
-          console.log('Phone number successfully sent to the server');
-        } else {
-          console.log('Failed to send phone number to the server');
-        }
-      } catch (error) {
-        console.error('Error occurred while sending the phone number:', error);
-      }
-    };
-
-    if (phoneNumber.length === 10) {
-      sendPhoneNumberToServer(phoneNumber);
-      dispatch(setRegistrationData({ phoneNumber }));
-      navigation.navigate('screen4');
-    }
-  }, [phoneNumber, dispatch, navigation]);
-
   const handlePhoneNumberChange = (text) => {
     const formattedNumber = text.replace(/[^0-9]/g, '');
     setPhoneNumber(formattedNumber);
   };
 
   const handleSupportTextPress = () => {
-    const supportURL = ''; // if required need to replace with your contact web page URL
+    const supportURL = ''; // if required, replace with your contact web page URL
     Linking.openURL(supportURL);
+  };
+
+  const handleNextButtonPress = () => {
+    dispatch(setRegistrationData({ phoneNumber }));
+    navigation.navigate('screen4');
   };
 
   return (
@@ -132,6 +107,7 @@ const Screen3 = () => {
         phoneNumber={phoneNumber}
         handlePhoneNumberChange={handlePhoneNumberChange}
         handleSupportTextPress={handleSupportTextPress}
+        handleNextButtonPress={handleNextButtonPress}
       />
     </View>
   );
@@ -141,6 +117,7 @@ const PhoneNumberInput = ({
   phoneNumber,
   handlePhoneNumberChange,
   handleSupportTextPress,
+  handleNextButtonPress,
 }) => {
   return (
     <View style={styles.regview}>
@@ -157,7 +134,7 @@ const PhoneNumberInput = ({
           maxLength={10}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => {}}>
+      <TouchableOpacity style={styles.button} onPress={handleNextButtonPress}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
       <Text style={styles.text}>
