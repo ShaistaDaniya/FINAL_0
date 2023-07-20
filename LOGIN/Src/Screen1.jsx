@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
   const Screen1 = () =>{
       const navigation = useNavigation();
       const handlePress= () =>{
-          navigation.navigate('Screen2');
+          navigation.navigate('Screen3');
       };
       return (
          <View style={styles.container}>
