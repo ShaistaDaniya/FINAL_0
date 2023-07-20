@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-
-const styles = StyleSheet.create({
+const styles = {
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
         marginLeft: 1,
       },
       filledPasscodeBox: {
-        borderColor: 'darkblue',
+        borderColor: '#2F4D8B',
         borderWidth: 2,
       },
       filledPasscodeBoxError: {
@@ -90,14 +89,27 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 8,
       },
-});
+ };
 
 const Screen6 = () => {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.logo}
+        source={require('./GAT.jpeg')}
+      />
+      <PasscodeScreen onSuccess={() => navigation.navigate('LastScreen')} onFail={() => navigation.navigate('Screen7')} />
+    </View>
+  );
+};
+
+const PasscodeScreen = ({ onSuccess, onFail }) => {
   const [passcode, setPasscode] = useState(['', '', '', '']);
   const [passcodeError, setPasscodeError] = useState(false);
-  const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [incorrectAttempts, setIncorrectAttempts] = useState(0);
   const passcodeInputs = useRef([]);
-  const navigation = useNavigation();
 
   const handlePasscodeChange = (index, value) => {
     const updatedPasscode = [...passcode];
@@ -110,63 +122,60 @@ const Screen6 = () => {
   };
 
   const handleVerifyPasscode = () => {
-    const correctPasscode = '1234'; // we can Replace passcode
+    const correctPasscode = '1234'; // Replace with your own passcode
     if (passcode.join('') === correctPasscode) {
       console.log('Success: Passcode verified!');
       setPasscodeError(false);
-      setWrongAttempts(0); // Reset wrong attempts on successful verification
-
-      // Navigating to the last screen on correct passcode attempt
-      navigation.navigate('LastScreen');
+      onSuccess(); // Navigate to the LastScreen on successful verification
     } else {
       console.log('Error: Passcode verification failed!');
       setPasscodeError(true);
-      setWrongAttempts((prevAttempts) => prevAttempts + 1);
+      setIncorrectAttempts((prev) => prev + 1);
+    }
 
-      if (wrongAttempts === 1) {
-        // Navigate to Screen 7 after two wrong attempts
-        navigation.navigate('Screen7');
-      }
+    // If two incorrect attempts, navigate to Screen7
+    if (incorrectAttempts === 1) {
+      onFail();
     }
   };
 
   const handleSupportTextPress = () => {
-    const supportURL = ''; // we can add your contact web page URL
+    const supportURL = ''; 
     Linking.openURL(supportURL);
   };
 
   return (
     <View style={styles.regview}>
-      <Text style={styles.enter}>Enter 4 digit code sent to</Text>
-      <Text style={styles.prevnum}>Num</Text>
+    <Text style={styles.enter}>Enter 4 digit code sent to</Text>
+    <Text style={styles.prevnum}>Num</Text>
 
-      <View style={styles.passcodeContainer}>
-        {passcode.map((digit, index) => (
-          <TextInput
-            key={index}
-            ref={(ref) => (passcodeInputs.current[index] = ref)}
-            secureTextEntry
-            keyboardType="numeric"
-            maxLength={1}
-            value={digit}
-            onChangeText={(text) => handlePasscodeChange(index, text)}
-            style={[
-              styles.passcodeBox,
-              digit && styles.filledPasscodeBox,
-              passcodeError && digit && styles.filledPasscodeBoxError,
-            ]}
-          />
-        ))}
-      </View>
-
-      {passcodeError && <Text style={styles.errorText}>Incorrect passcode entered. Try Again!</Text>}
-
-      <TouchableOpacity style={styles.button} onPress={handleVerifyPasscode}>
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-      <Text style={styles.resend}>You can resend the passcode after 24 seconds</Text>
+    <View style={styles.passcodeContainer}>
+      {passcode.map((digit, index) => (
+        <TextInput
+          key={index}
+          ref={(ref) => (passcodeInputs.current[index] = ref)}
+          secureTextEntry
+          keyboardType="numeric"
+          maxLength={1}
+          value={digit}
+          onChangeText={(text) => handlePasscodeChange(index, text)}
+          style={[
+            styles.passcodeBox,
+            digit && styles.filledPasscodeBox,
+            passcodeError && digit && styles.filledPasscodeBoxError,
+          ]}
+        />
+      ))}
     </View>
-  );
+
+    {passcodeError && <Text style={styles.errorText}>Incorrect passcode entered. Try Again!</Text>}
+
+    <TouchableOpacity style={styles.button} onPress={handleVerifyPasscode}>
+      <Text style={styles.buttonText}>Next</Text>
+    </TouchableOpacity>
+    <Text style={styles.resend}>You can resend the passcode after 24 seconds</Text>
+  </View>
+);
 };
 
 export default Screen6;

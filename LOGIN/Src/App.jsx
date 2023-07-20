@@ -9,6 +9,7 @@ import Screen3 from './Screen3';
 import Screen4 from './Screen4';
 import Screen5 from './Screen5';
 import Screen6 from './Screen6';
+import Screen7 from './Screen7';
 import LastScreen from './LastScreen';
 
 
@@ -25,6 +26,8 @@ const App = () => {
           <Stack.Screen name="Screen4" component={Screen4} />
           <Stack.Screen name="Screen5" component={Screen5} />
           <Stack.Screen name="Screen6" component={Screen6} />
+          <Stack.Screen name="Screen7" component={Screen7} />
+
           <Stack.Screen name="LastScreen" component={LastScreen} />
 
         </Stack.Navigator>
