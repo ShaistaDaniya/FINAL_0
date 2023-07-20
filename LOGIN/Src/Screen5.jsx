@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setPhoneNumber, setRegistrationData } from './Action';
 import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
@@ -94,12 +92,9 @@ const styles = StyleSheet.create({
 
 const Screen5 = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const phoneNumber = useSelector((state) => state.phoneNumber);
 
   const handleNextButton = () => {
-    dispatch(setPhoneNumber(''));
-    navigation.navigate('screen2');
+    navigation.navigate('Screen2');
   };
 
   const handleSupportTextPress = () => {
@@ -111,7 +106,6 @@ const Screen5 = () => {
     <View style={styles.container}>
       <Image style={styles.logo} source={require('./GAT.jpeg')} />
       <PhoneNumberInput
-        phoneNumber={phoneNumber}
         handleNextButton={handleNextButton}
         handleSupportTextPress={handleSupportTextPress}
       />
@@ -120,14 +114,13 @@ const Screen5 = () => {
 };
 
 const PhoneNumberInput = ({
-  phoneNumber,
   handleNextButton,
   handleSupportTextPress,
 }) => {
   return (
     <View style={styles.regview}>
       <Text style={styles.register}>
-        Your mobile number +91 {phoneNumber} is not registered with us!
+        Your mobile number is not registered with us!
       </Text>
       <Text style={styles.txt}>
         We have currently enrolled limited people. If you are interested in getting flexible factory jobs, please register your interest and we will get back to you

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { setRegistrationData } from './Action';
-import { useNavigation } from '@react-navigation/native';
-import { Flag } from 'react-native-svg-flagkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhoneNumber } from './Action';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,12 +81,15 @@ const styles = StyleSheet.create({
 
 const Screen3 = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { phoneNumber: initialPhoneNumber } = route.params;
   const dispatch = useDispatch();
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const phoneNumber = useSelector((state) => state.phoneNumber);
+  const [formattedPhoneNumber, setFormattedPhoneNumber] = useState(initialPhoneNumber);
 
   const handlePhoneNumberChange = (text) => {
     const formattedNumber = text.replace(/[^0-9]/g, '');
-    setPhoneNumber(formattedNumber);
+    setFormattedPhoneNumber(formattedNumber);
   };
 
   const handleSupportTextPress = () => {
@@ -96,15 +98,15 @@ const Screen3 = () => {
   };
 
   const handleNextButtonPress = () => {
-    dispatch(setRegistrationData({ phoneNumber }));
-    navigation.navigate('screen4');
+    dispatch(setPhoneNumber(formattedPhoneNumber)); // Dispatching the action to update the phone number in the store
+    navigation.navigate('Screen4');
   };
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require('./GAT.jpeg')} />
       <PhoneNumberInput
-        phoneNumber={phoneNumber}
+        phoneNumber={formattedPhoneNumber}
         handlePhoneNumberChange={handlePhoneNumberChange}
         handleSupportTextPress={handleSupportTextPress}
         handleNextButtonPress={handleNextButtonPress}
@@ -124,9 +126,9 @@ const PhoneNumberInput = ({
       <Text style={styles.register}>Your Registered Phone Number:</Text>
       <View style={styles.numContainer}>
         {/* Flag Component */}
-        <Flag id="IN" width={24} height={24} style={styles.flagIcon} />
+        {/* Add the Flag component code here */}
         <TextInput
-          style={styles.num}
+          style={styles.phoneNumberInput}
           keyboardType="phone-pad"
           placeholder="Enter phone number"
           value={phoneNumber}

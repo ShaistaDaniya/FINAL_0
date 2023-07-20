@@ -18,7 +18,7 @@ const Screen4 = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.navigate('screen5');
+      navigation.navigate('Screen5');
     }, 4000);
 
     return () => clearTimeout(timer);

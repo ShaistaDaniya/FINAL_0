@@ -83,11 +83,11 @@ const Screen2 = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const handlePhoneNumberInputClick = () => {
-    navigation.navigate('screen3');
+    navigation.navigate('Screen3', { phoneNumber });
   };
 
   const handleNextButton = () => {
-    navigation.navigate('screen4');
+    navigation.navigate('Screen3', { phoneNumber });
   };
 
   const handleSupportTextPress = () => {
