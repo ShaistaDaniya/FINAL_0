@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Linking } from 'react-native';
+import React from 'react';
+import { View, Image, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { Flag } from 'react-native-svg-flagkit';
+// import { Flag } from 'react-native-svg-flagkit';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,14 +80,13 @@ const styles = StyleSheet.create({
 
 const Screen2 = () => {
   const navigation = useNavigation();
-  const [phoneNumber, setPhoneNumber] = useState('');
 
   const handlePhoneNumberInputClick = () => {
-    navigation.navigate('Screen3', { phoneNumber });
+    navigation.navigate('Screen3');
   };
 
   const handleNextButton = () => {
-    navigation.navigate('Screen3', { phoneNumber });
+    navigation.navigate('Screen3');
   };
 
   const handleSupportTextPress = () => {
@@ -99,8 +98,6 @@ const Screen2 = () => {
     <View style={styles.container}>
       <Image style={styles.logo} source={require('./GAT.jpeg')} />
       <PhoneNumberInput
-        phoneNumber={phoneNumber}
-        handlePhoneNumberChange={setPhoneNumber}
         handlePhoneNumberInputClick={handlePhoneNumberInputClick}
         handleNextButton={handleNextButton}
         handleSupportTextPress={handleSupportTextPress}
@@ -110,8 +107,6 @@ const Screen2 = () => {
 };
 
 const PhoneNumberInput = ({
-  phoneNumber,
-  handlePhoneNumberChange,
   handlePhoneNumberInputClick,
   handleNextButton,
   handleSupportTextPress,
@@ -122,14 +117,8 @@ const PhoneNumberInput = ({
       <TouchableOpacity onPress={handlePhoneNumberInputClick}>
         <View style={styles.numContainer}>
           {/* Flag Component */}
-          <Flag id="IN" width={24} height={24} style={styles.flagIcon} />
-          <TextInput
-            style={styles.phoneNumberInput}
-            keyboardType="phone-pad"
-            placeholder="Enter phone number"
-            value={phoneNumber}
-            onChangeText={handlePhoneNumberChange}
-          />
+         {/* <Flag id="IN" width={24} height={24} style={styles.flagIcon} /> */}
+          <Text style={styles.phoneNumberInput}>Click here to enter phone number</Text>
         </View>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleNextButton}>

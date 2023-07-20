@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const lastScreen = () => {
+const LastScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Finally it's Done</Text>
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default lastScreen;
+export default LastScreen;
